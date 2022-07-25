@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import ru.dzhalelov.springcourse.models.Book;
 import ru.dzhalelov.springcourse.models.Person;
 
 import java.util.List;
@@ -35,18 +36,9 @@ public class PersonDAO
         return jdbcTemplate.query
                 (
                         "SELECT * FROM person WHERE id=?",
-                        new Object[]{id},
-                        new BeanPropertyRowMapper<>(Person.class)
+                        new BeanPropertyRowMapper<>(Person.class),
+                        id
                 ).stream().findAny().orElse(null);
-    }
-
-    public Optional<Person> show(String name)
-    {
-        return jdbcTemplate.query
-                (
-                        "SELECT * FROM person WHERE name=?", new Object[]{name},
-                        new BeanPropertyRowMapper<>(Person.class)
-                ).stream().findAny();
     }
 
     public void save(Person person)
@@ -78,4 +70,23 @@ public class PersonDAO
                 );
     }
 
+    public Optional<Person> getPersonByName(String name)
+    {
+        return jdbcTemplate.query
+                (
+                        "SELECT * FROM person WHERE name=?",
+                        new BeanPropertyRowMapper<>(Person.class),
+                        name
+                ).stream().findAny();
+    }
+
+    public List<Book> getBooksByPersonId(int id)
+    {
+        return jdbcTemplate.query
+                (
+                        "SELECT * FROM book WHERE id=?",
+                        new BeanPropertyRowMapper<>(Book.class),
+                        id
+                );
+    }
 }

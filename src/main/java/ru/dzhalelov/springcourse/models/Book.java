@@ -1,30 +1,40 @@
 package ru.dzhalelov.springcourse.models;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class Book
 {
-    private int id;
+    private int bookId;
+    @NotEmpty(message = "Поле не может быть пустым")
     private String name;
+    @NotEmpty(message = "Поле не может быть пустым")
     private String author;
-    private String year;
+    @Min(value = 0, message = "Введите минимум 0")
+    @Max(value = 2022, message = "Введите максимум 2022")
+    @NotNull
+    private int year;
 
     public Book() {}
 
-    public Book(int id, String name, String author, String year)
+    public Book(int bookId, String name, String author, int year)
     {
-        this.id = id;
+        this.bookId = bookId;
         this.name = name;
         this.author = author;
         this.year = year;
     }
 
-    public int getId()
+    public int getBookId()
     {
-        return id;
+        return bookId;
     }
 
-    public void setId(int id)
+    public void setBookId(int bookId)
     {
-        this.id = id;
+        this.bookId = bookId;
     }
 
     public String getName()
@@ -47,13 +57,14 @@ public class Book
         this.author = author;
     }
 
-    public String getYear()
+    public int getYear()
     {
         return year;
     }
 
-    public void setYear(String year)
+    public void setYear(int year)
     {
         this.year = year;
     }
+
 }
